@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+<title>1% mais gostosa</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #1a0a2e 100%);
+    font-family: Georgia, serif;
+    color: #f0e6ff;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .header { padding: 32px 24px 16px; }
+  .eyebrow { font-size: 11px; letter-spacing: 4px; color: #9f67ff; text-transform: uppercase; margin-bottom: 4px; }
+  .title { font-size: 28px; font-weight: normal; color: #f3e8ff; }
+  .subtitle { font-size: 12px; color: #9f67ff; margin-top: 4px; }
+  .date { font-size: 12px; color: #7c5cbf; margin-top: 2px; }
+
+  .week-banner {
+    margin: 0 24px 20px;
+    background: linear-gradient(135deg, #4c1d7a, #7c2d92);
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 16px; padding: 14px 18px;
+    font-size: 13px; color: #f0e6ff; text-align: center;
+  }
+  .week-banner strong { color: #e9d5ff; }
+
+  .tabs { display: flex; border-bottom: 1px solid rgba(167,139,250,0.2); padding: 0 8px; overflow-x: auto; }
+  .tab {
+    background: transparent; border: none;
+    border-bottom: 2px solid transparent;
+    color: #7c5cbf; padding: 12px 9px;
+    cursor: pointer; font-size: 10.5px;
+    letter-spacing: 1px; text-transform: uppercase;
+    font-family: Georgia, serif; white-space: nowrap;
+  }
+  .tab.active { color: #e9d5ff; border-bottom-color: #9f67ff; }
+
+  .content { padding: 24px; }
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 20px; padding: 20px;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: 13px; letter-spacing: 3px;
+    text-transform: uppercase; color: #9f67ff;
+    margin-bottom: 16px;
+  }
+
+  .meal-label { font-size: 13px; color: #c4b5fd; margin-bottom: 6px; margin-top: 14px; }
+  select {
+    width: 100%;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 12px; padding: 10px 14px;
+    color: #e9d5ff; font-size: 13px;
+    font-family: Georgia, serif;
+  }
+
+  /* Macro calculator */
+  .macro-bar {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 20px; padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+  .macro-title {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: #9f67ff; margin-bottom: 14px;
+  }
+  .macro-total {
+    font-size: 28px; color: #f3e8ff; text-align: center;
+    font-weight: normal; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .macro-total .kcal-label { font-size: 13px; color: #7c5cbf; }
+  .macro-meta { font-size: 11px; color: #7c5cbf; text-align: center; margin-bottom: 14px; }
+  .macro-progress {
+    height: 6px; background: rgba(255,255,255,0.08);
+    border-radius: 10px; overflow: hidden; margin-bottom: 14px;
+  }
+  .macro-progress-fill {
+    height: 100%; border-radius: 10px;
+    background: linear-gradient(90deg, #7c3aed, #b91c8f);
+    transition: width .4s ease;
+  }
+  .macro-progress-fill.ok { background: linear-gradient(90deg, #22c55e, #16a34a); }
+  .macro-progress-fill.over { background: linear-gradient(90deg, #ef4444, #b91c1c); }
+  .macro-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .macro-item { text-align: center; }
+  .macro-item .mv { font-size: 17px; color: #e9d5ff; font-weight: normal; }
+  .macro-item .ml { font-size: 10px; color: #7c5cbf; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+  .macro-item .mp { font-size: 10px; color: #9f67ff; }
+  .macro-msg { font-size: 12px; color: #c4b5fd; text-align: center; margin-top: 12px; font-style: italic; min-height: 16px; }
+
+  /* Water tracker */
+  .water-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(94,184,217,0.25);
+    border-radius: 20px; padding: 18px;
+    margin-bottom: 20px;
+  }
+  .water-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .water-title { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #5eb8d9; }
+  .water-total { font-size: 22px; color: #e9d5ff; }
+  .water-total .un { font-size: 12px; color: #7c5cbf; }
+  .water-progress { height: 8px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+  .water-progress-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #2c5282, #5eb8d9); transition: width .4s ease; }
+  .water-progress-fill.ok { background: linear-gradient(90deg, #22c55e, #16a34a); }
+  .water-btns { display: flex; gap: 8px; }
+  .water-btn {
+    flex: 1; padding: 10px; border-radius: 12px;
+    border: 1px solid rgba(94,184,217,0.3); background: rgba(94,184,217,0.1);
+    color: #a8dcf0; font-size: 13px; font-family: Georgia, serif; cursor: pointer;
+  }
+  .water-btn:active { background: rgba(94,184,217,0.3); }
+  .water-reset { background: none; border: none; color: #6b8caa; font-size: 11px; margin-top: 10px; cursor: pointer; text-decoration: underline; }
+
+  .menu-item {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(167,139,250,0.08);
+    font-size: 14px; color: #e9d5ff;
+  }
+  .menu-item strong { color: #f3e8ff; }
+  .menu-item .desc { font-size: 12px; color: #c4b5fd; display: block; margin-top: 3px; }
+  .menu-tag {
+    display: inline-block; font-size: 10px; letter-spacing: .5px;
+    background: rgba(167,139,250,0.15); color: #9f67ff;
+    padding: 2px 8px; border-radius: 8px; margin-top: 5px;
+  }
+
+  .coringa-box {
+    background: rgba(217,164,65,0.1);
+    border: 1px solid rgba(217,164,65,0.3);
+    border-radius: 16px; padding: 16px 18px;
+    font-size: 12.5px; color: #e8d9c0; line-height: 1.6;
+  }
+  .coringa-box strong { color: #d9a441; }
+  .coringa-list { margin-top: 10px; padding-left: 18px; }
+  .coringa-list li { margin-bottom: 4px; }
+
+  /* Hábitos */
+  .habito-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 16px; padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .habito-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .habito-nome { font-size: 15px; color: #f3e8ff; }
+  .habito-toggle {
+    width: 100%; padding: 12px; border-radius: 12px; margin-top: 10px;
+    border: 1px solid rgba(167,139,250,0.3); background: rgba(167,139,250,0.08);
+    color: #c4b5fd; font-size: 13px; font-family: Georgia, serif; cursor: pointer;
+  }
+  .habito-toggle.done { background: rgba(34,197,94,0.25); border-color: #22c55e; color: #d1fae5; }
+  .habito-icon { font-size: 18px; margin-right: 6px; }
+
+  /* Date bar */
+  .date-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 0 24px 16px; gap: 8px;
+  }
+  .date-bar button {
+    background: none; border: 1px solid rgba(167,139,250,0.3);
+    color: #c4b5fd; width: 32px; height: 32px; border-radius: 50%;
+    font-size: 15px; cursor: pointer; flex-shrink: 0;
+  }
+  .date-display {
+    font-size: 13px; color: #f3e8ff; text-align: center;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 12px; padding: 6px 12px; flex: 1; cursor: pointer;
+  }
+  .date-display.editando-hoje { color: #86efac; border-color: rgba(34,197,94,0.4); }
+  .date-display.editando-outro { color: #fcd34d; border-color: rgba(252,211,77,0.4); }
+
+  /* Planner semanal */
+  .planner-day {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 16px; padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .planner-day-title { font-size: 14px; color: #e9d5ff; font-weight: bold; margin-bottom: 10px; }
+  .planner-select { margin-bottom: 8px; }
+  .planner-select label { font-size: 11px; color: #9f67ff; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .planner-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .btn-primary {
+    flex: 1; padding: 13px; border-radius: 12px; border: none;
+    background: linear-gradient(135deg, #7c3aed, #b91c8f); color: white;
+    font-size: 14px; font-family: Georgia, serif; cursor: pointer;
+  }
+  .btn-secondary {
+    flex: 1; padding: 13px; border-radius: 12px;
+    border: 1px solid rgba(167,139,250,0.3); background: rgba(167,139,250,0.08);
+    color: #c4b5fd; font-size: 14px; font-family: Georgia, serif; cursor: pointer;
+  }
+
+  .shop-cat { margin-bottom: 18px; }
+  .shop-cat-title { font-size: 12px; color: #9f67ff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .shop-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 0; border-bottom: 1px solid rgba(167,139,250,0.08);
+    font-size: 13.5px; color: #e9d5ff;
+  }
+  .shop-item input[type=checkbox] { width: 17px; height: 17px; accent-color: #9f67ff; flex-shrink: 0; }
+  .shop-item.checked span { text-decoration: line-through; color: #6b5a8a; }
+  .shop-qtd { margin-left: auto; color: #9f67ff; font-size: 12px; flex-shrink: 0; }
+
+  .history-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 16px; padding: 16px;
+    margin-bottom: 14px;
+  }
+  .history-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .history-date { font-size: 14px; color: #f3e8ff; font-weight: bold; }
+  .history-score { font-size: 12px; color: #9f67ff; }
+  .history-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tag { font-size: 12px; }
+  .tag.green { color: #86efac; }
+  .tag.red { color: #f87171; }
+  .tag.blue { color: #7dd3fc; }
+  .tag.gold { color: #fcd34d; }
+
+  .empty { text-align: center; color: #7c5cbf; padding: 40px; font-size: 15px; line-height: 1.8; }
+  .hidden { display: none; }
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .sub-note { font-size: 11.5px; color: #7c5cbf; font-style: italic; margin-top: 6px; }
+
+  .subtabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 16px; padding-bottom: 2px; }
+  .subtab {
+    background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.25);
+    color: #c4b5fd; padding: 7px 14px; border-radius: 100px;
+    font-size: 12px; white-space: nowrap; cursor: pointer; font-family: Georgia, serif;
+  }
+  .subtab.active { background: rgba(167,139,250,0.3); color: #f3e8ff; border-color: #9f67ff; }
+  .sub-group { margin-bottom: 16px; }
+  .sub-group-title { font-size: 12px; color: #9f67ff; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .sub-item { padding: 8px 0; border-bottom: 1px solid rgba(167,139,250,0.08); font-size: 13.5px; color: #e9d5ff; display: flex; justify-content: space-between; gap: 12px; }
+  .sub-item span.qtd { color: #c4b5fd; font-size: 12.5px; text-align: right; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<canvas class="stars" id="stars"></canvas>
+
+<div class="header" style="position:relative;z-index:1">
+  <div class="eyebrow">1% mais gostosa</div>
+  <div class="title">🌱 Planner</div>
+  <div class="subtitle">Planejamento consciente · 1450-1500 kcal</div>
+  <div class="date" id="today-date"></div>
+</div>
+
+<div class="date-bar" style="position:relative;z-index:1">
+  <button onclick="mudarDiaAtivo(-1)" aria-label="Dia anterior">‹</button>
+  <div class="date-display" id="date-display" onclick="irParaHoje()"></div>
+  <button onclick="mudarDiaAtivo(1)" aria-label="Próximo dia">›</button>
+</div>
+
+<div class="tabs" style="position:relative;z-index:1">
+  <button class="tab active" onclick="switchTab('hoje', this)">hoje</button>
+  <button class="tab" onclick="switchTab('semana', this)">semana</button>
+  <button class="tab" onclick="switchTab('mercado', this)">mercado</button>
+  <button class="tab" onclick="switchTab('habitos', this)">hábitos</button>
+  <button class="tab" onclick="switchTab('cardapio', this)">cardápio</button>
+  <button class="tab" onclick="switchTab('trocas', this)">trocas</button>
+  <button class="tab" onclick="switchTab('historico', this)">histórico</button>
+</div>
+
+<div class="content" style="position:relative;z-index:1">
+
+  <!-- HOJE -->
+  <div id="tab-hoje">
+
+    <div class="macro-bar" id="macro-bar">
+      <div class="macro-title">🌱 macros do dia</div>
+      <div class="macro-total"><span id="mc-kcal">0</span> <span class="kcal-label">kcal</span></div>
+      <div class="macro-meta">meta: 1475 kcal · <span id="mc-restam">1475 restam</span></div>
+      <div class="macro-progress"><div class="macro-progress-fill" id="mc-bar" style="width:0%"></div></div>
+      <div class="macro-grid">
+        <div class="macro-item"><div class="mv"><span id="mc-p">0</span>g</div><div class="ml">proteína</div><div class="mp">meta 115g</div></div>
+        <div class="macro-item"><div class="mv"><span id="mc-c">0</span>g</div><div class="ml">carbo</div><div class="mp">35-45%</div></div>
+        <div class="macro-item"><div class="mv"><span id="mc-g">0</span>g</div><div class="ml">gordura</div><div class="mp">20-25%</div></div>
+      </div>
+      <div class="macro-msg" id="mc-msg"></div>
+    </div>
+
+    <div class="water-box">
+      <div class="water-top">
+        <span class="water-title">💧 água</span>
+        <span class="water-total"><span id="water-total">0.0</span><span class="un">L / 3.0L</span></span>
+      </div>
+      <div class="water-progress"><div class="water-progress-fill" id="water-bar" style="width:0%"></div></div>
+      <div class="water-btns">
+        <button class="water-btn" onclick="addAgua(0.2)">+200ml</button>
+        <button class="water-btn" onclick="addAgua(0.3)">+300ml</button>
+        <button class="water-btn" onclick="addAgua(0.5)">+500ml</button>
+      </div>
+      <button class="water-reset" onclick="resetAgua()">zerar hoje</button>
+    </div>
+
+    <div class="card">
+      <div class="section-title">o que comi hoje</div>
+
+      <div class="meal-label">☀️ café da manhã</div>
+      <select id="meal-cafe" onchange="setMeal('cafe', this.value)">
+        <option value="">— escolher —</option>
+        <option>Pão com ovo e requeijão light</option>
+        <option>Crepioca de frango com requeijão</option>
+        <option>Pizza de wrap e fruta</option>
+        <option>Pão de queijo de frigideira</option>
+        <option>Mingau de aveia</option>
+        <option>Panqueca de cacau</option>
+        <option value="refeição livre">🎉 refeição livre</option>
+        <option value="não comi no plano">⚠️ não comi no plano</option>
+      </select>
+
+      <div class="meal-label">🍽️ almoço</div>
+      <select id="meal-almoco" onchange="setMeal('almoco', this.value)">
+        <option value="">— escolher —</option>
+        <option>Prato feito</option>
+        <option>Purê de brócolis com peito de frango</option>
+        <option>Tomate recheado com frango e macarrão</option>
+        <option>Strogonoff fit</option>
+        <option>Creme de milho com frango</option>
+        <option>Macarrão bolonhesa</option>
+        <option>Subway saudável</option>
+        <option>Risoto saudável</option>
+        <option>Hambúrguer</option>
+        <option value="refeição livre">🎉 refeição livre</option>
+        <option value="não comi no plano">⚠️ não comi no plano</option>
+      </select>
+
+      <div class="meal-label">🥪 lanche da tarde</div>
+      <select id="meal-lanche" onchange="setMeal('lanche', this.value)">
+        <option value="">— escolher —</option>
+        <option>Cheesecake fit (original)</option>
+        <option>Pão pizza</option>
+        <option>Shake proteico</option>
+        <option>Toast de banana</option>
+        <option>Sanduíche de atum cremoso</option>
+        <option>Tortinha de morango</option>
+        <option value="refeição livre">🎉 refeição livre</option>
+        <option value="não comi no plano">⚠️ não comi no plano</option>
+      </select>
+
+      <div class="meal-label">🌙 jantar</div>
+      <select id="meal-jantar" onchange="setMeal('jantar', this.value)">
+        <option value="">— escolher —</option>
+        <option>Prato feito</option>
+        <option>Purê de brócolis com peito de frango</option>
+        <option>Tomate recheado com frango e macarrão</option>
+        <option>Strogonoff fit</option>
+        <option>Creme de milho com frango</option>
+        <option>Macarrão bolonhesa</option>
+        <option>Subway saudável</option>
+        <option>Risoto saudável</option>
+        <option>Hambúrguer</option>
+        <option value="refeição livre">🎉 refeição livre</option>
+        <option value="não comi no plano">⚠️ não comi no plano</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🍓 lanche coringa (fome extra)</div>
+      <p style="font-size:12px;color:#c4b5fd;margin-bottom:14px;line-height:1.6">Pra quando bater fome fora de hora, especialmente à tarde.</p>
+      <select id="meal-coringa" onchange="setMeal('coringa', this.value)">
+        <option value="">— não usei hoje —</option>
+        <option>200g de gelatina zero preparada</option>
+        <option>180g de morango</option>
+        <option>200g de melancia</option>
+        <option>200g de melão</option>
+        <option>1 iogurte natural desnatado (170g)</option>
+        <option>50g de qualquer vegetal de uso livre</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🍬 docinho de hoje</div>
+      <p style="font-size:12px;color:#c4b5fd;margin-bottom:14px;line-height:1.6">Até 100 kcal, depois do almoço OU do jantar — escolha 1 por dia, se quiser.</p>
+      <select id="meal-docinho" onchange="setMeal('docinho', this.value)">
+        <option value="">— não usei hoje —</option>
+        <option>Paçoquita (20g)</option>
+        <option>Bombom Lacta Oreo (20g)</option>
+        <option>Bombom Ouro Branco (20g)</option>
+        <option>Chocolate Baton Garoto (16g)</option>
+        <option>Kinder Chocolate mini (12,5g)</option>
+        <option>Kinder Tronk (18g)</option>
+        <option>Picolé Chicabon zero (63g)</option>
+        <option>Ferrero Rocher (12,5g)</option>
+        <option>Leite condensado (1 col sopa, 20g)</option>
+        <option>Bis 2 unidades (12,6g)</option>
+        <option>Prestígio Mini (16g)</option>
+        <option>Sonho de Valsa (20g)</option>
+        <option>KitKat Mini (11,6g)</option>
+        <option>Tortuguita (15,5g)</option>
+        <option>Brigadeiro pequeno (20g)</option>
+        <option>Pé de Moleque pequeno (18g)</option>
+        <option>Cocada pequena (20g)</option>
+        <option>Doce de Leite (1 col sopa, 20g)</option>
+        <option>Goiabada (1 fatia pequena, 20g)</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- SEMANA (planner) -->
+  <div id="tab-semana" class="hidden">
+    <div class="card">
+      <div class="section-title">🗓️ montar semana</div>
+      <p style="font-size:12.5px;color:#c4b5fd;margin-bottom:16px;line-height:1.6">Escolha as receitas de cada dia. No domingo, monte a semana toda e gere sua lista de mercado.</p>
+      <div id="planner-days"></div>
+      <div class="planner-actions">
+        <button class="btn-secondary" onclick="limparPlanner()">limpar semana</button>
+        <button class="btn-primary" onclick="aplicarPlannerHoje()">usar plano de hoje</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MERCADO -->
+  <div id="tab-mercado" class="hidden">
+    <div class="card">
+      <div class="section-title">🛒 lista de mercado da semana</div>
+      <p id="mercado-vazio" style="font-size:13px;color:#7c5cbf;line-height:1.8">Monte sua semana na aba "semana" primeiro — a lista é gerada automaticamente a partir das receitas escolhidas.</p>
+      <div id="mercado-list"></div>
+    </div>
+  </div>
+
+  <!-- HÁBITOS -->
+  <div id="tab-habitos" class="hidden">
+    <div class="card" style="text-align:center">
+      <div class="section-title" style="text-align:center">check-in de hoje</div>
+      <div id="habitos-list"></div>
+    </div>
+  </div>
+
+  <!-- CARDÁPIO -->
+  <div id="tab-cardapio" class="hidden">
+    <div class="card">
+      <div class="section-title">☀️ café da manhã</div>
+
+      <div class="menu-item">
+        <strong>Pão com ovo e requeijão light</strong> · 425 kcal
+        <span class="desc">2 fatias pão francês (100g) · 1 ovo · 1 col sopa cheia requeijão light (30g) · 1 fatia melancia (100g)</span>
+      </div>
+      <div class="menu-item">
+        <strong>Crepioca de frango com requeijão</strong> · 355 kcal
+        <span class="desc">2 col sopa goma de tapioca (30g) · 1 ovo · 3 col sopa frango desfiado (60g) · 1 col sopa requeijão light (15g) · 150g morango</span>
+      </div>
+      <div class="menu-item">
+        <strong>Pizza de wrap e fruta</strong> · 326 kcal
+        <span class="desc">1 wrap (40g) · 2 col sopa extrato de tomate (30g) · 2 col sobremesa requeijão light (20g) · 2 fatias queijo muçarela (40g) · tomate (30g) · 10 morangos (120g)</span>
+        <span class="menu-tag">montagem: extrato > requeijão > muçarela > tomate > orégano</span>
+      </div>
+      <div class="menu-item">
+        <strong>Pão de queijo de frigideira</strong> · 381 kcal
+        <span class="desc">2 col sopa goma de tapioca (30g) · 1 ovo · 20g queijo muçarela · 1 col sopa requeijão light (15g) · 170g mamão</span>
+      </div>
+      <div class="menu-item">
+        <strong>Mingau de aveia</strong> · 222 kcal
+        <span class="desc">25g whey protein · 1 xícara leite de vaca desnatado (200ml) · 1 col sopa cheia aveia em flocos (15g) — misturar tudo em fogo baixo até consistência de mingau</span>
+      </div>
+      <div class="menu-item" style="border-bottom:none">
+        <strong>Panqueca de cacau</strong> · 223 kcal
+        <span class="desc">1 ovo · 1 col sopa cheia farelo de aveia (15g) · 1 col sobremesa cheia cacau em pó (10g) · 15g whey protein · 4 morangos (48g) — dourar dos dois lados em fogo baixo, finalizar com morango picado</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🍽️ almoço e jantar</div>
+      <p style="font-size:12px;color:#c4b5fd;margin-bottom:14px;line-height:1.6">As mesmas 9 opções servem para as duas refeições — escolha pela fome do momento.</p>
+
+      <div class="menu-item">
+        <strong>Prato feito</strong> · ~430-460 kcal
+        <span class="desc">3-4 col sopa arroz cozido (75-100g) · feijão (60-80g) · 110g frango ou carne grelhada · salada mín. 250g · 1 col café azeite</span>
+      </div>
+      <div class="menu-item">
+        <strong>Purê de brócolis com peito de frango</strong> · 383 kcal
+        <span class="desc">110g peito de frango grelhado · 5 col sopa batata cozida (150g) · 1 col sopa requeijão light (15g) · brócolis (50g) · salada</span>
+      </div>
+      <div class="menu-item">
+        <strong>Tomate recheado com frango e macarrão</strong> · 416 kcal
+        <span class="desc">1 tomate grande (180g), ocado · 130g frango desfiado · 70g macarrão cozido · 20g queijo muçarela</span>
+      </div>
+      <div class="menu-item">
+        <strong>Strogonoff fit</strong> · 430 kcal
+        <span class="desc">3,5 col sopa arroz cozido (85g) · 110g patinho grelhado em iscas · 1 col sopa requeijão light (30g) · 1 col sopa ketchup (12g) · salada</span>
+      </div>
+      <div class="menu-item">
+        <strong>Creme de milho com frango</strong> · 348 kcal
+        <span class="desc">6 col sopa milho verde enlatado drenado (84g) · 1 col sopa requeijão light (15g) · leite desnatado (50ml) · 130g frango cru · 2 col sopa molho de tomate</span>
+      </div>
+      <div class="menu-item">
+        <strong>Macarrão bolonhesa</strong> · 456 kcal
+        <span class="desc">100g macarrão cozido · 110g carne moída magra · 3 col sopa molho de tomate · salada · 1 col café azeite</span>
+      </div>
+      <div class="menu-item">
+        <strong>Subway saudável</strong> · 451 kcal
+        <span class="desc">1 pão baguete grande (70g) · 110g peito de frango grelhado · 20g queijo muçarela · salada completa</span>
+      </div>
+      <div class="menu-item">
+        <strong>Risoto saudável</strong> · 451 kcal
+        <span class="desc">45g arroz arbóreo · 130g frango em cubos · cenoura e abobrinha raladas (80g) · 5g parmesão · 1 col sopa requeijão light (15g)</span>
+      </div>
+      <div class="menu-item" style="border-bottom:none">
+        <strong>Hambúrguer</strong> · 408 kcal
+        <span class="desc">1 pão de hambúrguer (50g) · 110g carne moída · 20g queijo · salada · molho a gosto</span>
+      </div>
+      <div class="menu-item" style="border-bottom:none; padding-top:14px">
+        <span style="color:#d9a441; font-size:12.5px">⚠️ Salada mínima de 250g em cada refeição.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🥪 lanche da tarde</div>
+
+      <div class="menu-item">
+        <strong>Cheesecake fit (original)</strong> · 198 kcal
+        <span class="desc">100g iogurte natural desnatado · 3 col sopa rasas cream cheese light (45g) · 1 col chá adoçante em pó · 4 morangos (48g) · 3 biscoitos maisena (15g)</span>
+      </div>
+      <div class="menu-item">
+        <strong>Pão pizza</strong> · 198 kcal
+        <span class="desc">1 fatia pão de forma integral (25g) · 1 col sopa extrato de tomate (20g) · 2 fatias queijo muçarela (40g) · tomate (30g)</span>
+      </div>
+      <div class="menu-item">
+        <strong>Shake proteico</strong> · 185 kcal
+        <span class="desc">1 xícara leite desnatado (200ml) · 1 dosador whey protein (15g) · 15 morangos (180g)</span>
+      </div>
+      <div class="menu-item">
+        <strong>Toast de banana</strong> · 175 kcal
+        <span class="desc">1 fatia pão de forma integral (25g) · 1 dosador whey sabor morango (15g) · 1 banana média (65g) · canela</span>
+      </div>
+      <div class="menu-item">
+        <strong>Sanduíche de atum cremoso</strong> · 285 kcal
+        <span class="desc">2 fatias pão integral (50g) · 3 col sopa cheias atum sólido ao natural (60g) · 1 col sopa creme de ricota (20g) · 2 folhas grandes alface (30g) · 2 col sopa cheias cenoura ralada (34g)</span>
+        <span class="menu-tag">sub. atum: tofu 3 fatias médias (60g) · dica: monte 3 de uma vez e guarde na geladeira</span>
+      </div>
+      <div class="menu-item" style="border-bottom:none">
+        <strong>Tortinha de morango</strong> · 304 kcal
+        <span class="desc">1 iogurte natural desnatado (170g) · 100g morango picado · 3 biscoitos maisena (15g) · 1 col sopa leite condensado (20g) · 1 scoop whey morango (15g) — misturar iogurte com whey até homogêneo, adicionar morango picado, quebrar biscoitos por cima e finalizar com leite condensado</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🎉 refeição livre</div>
+      <div class="coringa-box" style="background:rgba(94,184,217,0.1); border-color:rgba(94,184,217,0.3)">
+        <strong style="color:#5eb8d9">2 liberadas por semana</strong> — um recurso estratégico para incluir o que sente falta, com consciência e sem culpa. Marque no select da refeição correspondente quando usar.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🍓 lanche coringa</div>
+      <div class="coringa-box">
+        <strong>Para fome extra</strong> — especialmente à tarde. Marque direto na aba "hoje":
+        <ul class="coringa-list">
+          <li>200g de gelatina zero preparada</li>
+          <li>180g de morango (ou congelado, batido)</li>
+          <li>200g de melancia</li>
+          <li>200g de melão</li>
+          <li>1 iogurte natural desnatado (170g)</li>
+          <li>50g de qualquer vegetal de uso livre</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🍬 docinhos até 100 kcal</div>
+      <div class="coringa-box" style="background:rgba(217,164,65,0.1); border-color:rgba(217,164,65,0.3)">
+        <strong style="color:#d9a441">1 por dia</strong> — depois do almoço OU depois do jantar. Marque direto na aba "hoje":
+        <ul class="coringa-list">
+          <li>Paçoquita (20g) · Bombom Lacta Oreo (20g) · Bombom Ouro Branco (20g)</li>
+          <li>Chocolate Baton Garoto (16g) · Kinder Chocolate mini (12,5g) · Kinder Tronk (18g)</li>
+          <li>Picolé Chicabon zero (63g) · Ferrero Rocher (12,5g) · Leite condensado (1 col sopa)</li>
+          <li>Bis 2un (12,6g) · Prestígio Mini (16g) · Sonho de Valsa (20g) · KitKat Mini (11,6g)</li>
+          <li>Tortuguita (15,5g) · Brigadeiro pequeno (20g) · Pé de Moleque pequeno (18g)</li>
+          <li>Cocada pequena (20g) · Doce de Leite (1 col sopa) · Goiabada (1 fatia pequena)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TROCAS -->
+  <div id="tab-trocas" class="hidden">
+
+    <div class="subtabs">
+      <button class="subtab active" onclick="switchSubtab('frutas', this)">frutas</button>
+      <button class="subtab" onclick="switchSubtab('carbo', this)">carboidratos</button>
+      <button class="subtab" onclick="switchSubtab('proteina', this)">proteínas</button>
+      <button class="subtab" onclick="switchSubtab('laticinios', this)">laticínios</button>
+    </div>
+
+    <!-- FRUTAS -->
+    <div id="sub-frutas">
+      <div class="card">
+        <div class="section-title">🍓 porção de fruta — café da manhã</div>
+        <div class="sub-note" style="margin-bottom:10px">Substitutas equivalentes do morango/melancia/mamão que já aparecem nas receitas. Use a que tiver em casa.</div>
+        <div class="sub-item"><span>Morango</span><span class="qtd">150g (≈10 un médias)</span></div>
+        <div class="sub-item"><span>Melancia</span><span class="qtd">150-165g (1 fatia fina)</span></div>
+        <div class="sub-item"><span>Melão</span><span class="qtd">140-155g (1 fatia média)</span></div>
+        <div class="sub-item"><span>Mamão papaia</span><span class="qtd">150g (½ un pequena)</span></div>
+        <div class="sub-item"><span>Kiwi</span><span class="qtd">130-140g (1½ un média)</span></div>
+        <div class="sub-item"><span>Maçã</span><span class="qtd">130-140g (1 un pequena)</span></div>
+        <div class="sub-item"><span>Banana</span><span class="qtd">85-95g (1 un pequena)</span></div>
+        <div class="sub-item"><span>Uva</span><span class="qtd">110g (14-16 un médias)</span></div>
+        <div class="sub-item" style="border-bottom:none"><span>Abacaxi</span><span class="qtd">150g (1½ fatia média)</span></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">🍇 fruta — lanche/shake (porção maior)</div>
+        <div class="sub-note" style="margin-bottom:10px">Para o shake proteico e a tortinha, onde a fruta é mais generosa (~150-180g).</div>
+        <div class="sub-item"><span>Morango</span><span class="qtd">180g (15 un)</span></div>
+        <div class="sub-item"><span>Framboesa</span><span class="qtd">170g (2 xíc)</span></div>
+        <div class="sub-item"><span>Amora</span><span class="qtd">170g (2 xíc)</span></div>
+        <div class="sub-item"><span>Mirtilo (blueberry)</span><span class="qtd">95g (¾ xíc)</span></div>
+        <div class="sub-item"><span>Melão</span><span class="qtd">180g (1½ xíc em cubos)</span></div>
+        <div class="sub-item"><span>Mamão papaia</span><span class="qtd">150g (½ un pequena)</span></div>
+        <div class="sub-item"><span>Kiwi</span><span class="qtd">180g (2 un médias)</span></div>
+        <div class="sub-item" style="border-bottom:none"><span>Manga</span><span class="qtd">160g (1 un pequena)</span></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">🍈 mamão — pão de queijo de frigideira</div>
+        <div class="sub-note" style="margin-bottom:10px">A receita leva 170g de mamão — equivalências:</div>
+        <div class="sub-item"><span>Morango</span><span class="qtd">170g (≈11-12 un)</span></div>
+        <div class="sub-item"><span>Melancia</span><span class="qtd">170-190g (1 fatia méd)</span></div>
+        <div class="sub-item"><span>Melão</span><span class="qtd">160-175g (1 fatia méd)</span></div>
+        <div class="sub-item" style="border-bottom:none"><span>Abacaxi</span><span class="qtd">170g (1½ fatia méd)</span></div>
+      </div>
+    </div>
+
+    <!-- CARBOIDRATOS -->
+    <div id="sub-carbo" class="hidden">
+      <div class="card">
+        <div class="section-title">🍞 café da manhã — pão/base</div>
+        <div class="sub-item"><span>Pão francês sem glúten</span><span class="qtd">1 un (50g)</span></div>
+        <div class="sub-item"><span>Pão de forma tradicional</span><span class="qtd">2 fatias (50g)</span></div>
+        <div class="sub-item"><span>Pão de forma integral</span><span class="qtd">2 fatias (50g)</span></div>
+        <div class="sub-item"><span>Pão sírio pequeno</span><span class="qtd">1 un (45g)</span></div>
+        <div class="sub-item"><span>Tortilha/wrap</span><span class="qtd">1 un média (40g)</span></div>
+        <div class="sub-item" style="border-bottom:none"><span>Goma de tapioca</span><span class="qtd">3 col sopa rasas (40g)</span></div>
+        <div class="sub-note">Para crepioca/pão de queijo, a goma de tapioca mantém a textura — flocão ou aveia deixam mais parecido com panqueca salgada.</div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">🍚 almoço e jantar — carboidrato principal</div>
+        <div class="sub-item"><span>Abóbora cabotiá cozida</span><span class="qtd">~205g (1 escumadeira cheia)</span></div>
+        <div class="sub-item"><span>Arroz branco cozido</span><span class="qtd">75-100g (3 col sopa)</span></div>
+        <div class="sub-item"><span>Arroz integral cozido</span><span class="qtd">~80-100g (3 col sopa)</span></div>
+        <div class="sub-item"><span>Batata inglesa cozida</span><span class="qtd">~150-160g (3 col servir)</span></div>
+        <div class="sub-item"><span>Batata-doce cozida</span><span class="qtd">~120g (3 col sopa)</span></div>
+        <div class="sub-item"><span>Inhame cozido</span><span class="qtd">~95g (3 col sopa)</span></div>
+        <div class="sub-item"><span>Mandioca (aipim) cozida</span><span class="qtd">~70g (2½ col sopa)</span></div>
+        <div class="sub-item"><span>Purê de batata (sem manteiga)</span><span class="qtd">~120g (3-4 col sopa)</span></div>
+        <div class="sub-item" style="border-bottom:none"><span>Quinoa cozida</span><span class="qtd">~75g (3 col sopa rasas)</span></div>
+        <div class="sub-note">Creme de milho: o milho é essencial na receita, sem substituição indicada. Risoto e nhoque também não têm substituto recomendado — são a base da textura.</div>
+      </div>
+    </div>
+
+    <!-- PROTEÍNAS -->
+    <div id="sub-proteina" class="hidden">
+      <div class="card">
+        <div class="section-title">🍗 suas proteínas de referência</div>
+        <div class="sub-note" style="margin-bottom:10px">Filtrado para as fontes que você mais usa no dia a dia.</div>
+
+        <div class="sub-group">
+          <div class="sub-group-title">Almoço e jantar</div>
+          <div class="sub-item"><span>Patinho grelhado/moído</span><span class="qtd">100-110g (1 bife médio)</span></div>
+          <div class="sub-item"><span>Peito de frango grelhado</span><span class="qtd">100-130g (1 filé médio)</span></div>
+          <div class="sub-item"><span>Peito de frango cozido/desfiado</span><span class="qtd">120-130g (4 col sopa)</span></div>
+          <div class="sub-item" style="border-bottom:none"><span>Carne moída magra</span><span class="qtd">110g</span></div>
+        </div>
+
+        <div class="sub-group">
+          <div class="sub-group-title">Café da manhã e lanche</div>
+          <div class="sub-item"><span>Ovo de galinha</span><span class="qtd">1 unidade (45-50g)</span></div>
+          <div class="sub-item"><span>Frango desfiado</span><span class="qtd">60g (3 col sopa)</span></div>
+          <div class="sub-item" style="border-bottom:none"><span>Atum sólido ao natural</span><span class="qtd">60g (3 col sopa)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LATICÍNIOS -->
+    <div id="sub-laticinios" class="hidden">
+      <div class="card">
+        <div class="section-title">🧀 laticínios — café e lanche</div>
+        <div class="sub-item"><span>Requeijão zero lactose</span><span class="qtd">1 col sopa cheia (30g)</span></div>
+        <div class="sub-item"><span>Creme de ricota light</span><span class="qtd">1 col sopa cheia (30g)</span></div>
+        <div class="sub-item"><span>Cream cheese light</span><span class="qtd">1 col sopa cheia (25-30g)</span></div>
+        <div class="sub-item"><span>Queijo cottage</span><span class="qtd">2 col sopa cheias (50-60g)</span></div>
+        <div class="sub-item" style="border-bottom:none"><span>Ricota fresca</span><span class="qtd">1 fatia média (40-45g)</span></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">🧀 queijo — geral (pizza de wrap, pão pizza)</div>
+        <div class="sub-item"><span>Queijo muçarela</span><span class="qtd">2 fatias médias (40g)</span></div>
+        <div class="sub-item"><span>Queijo muçarela light</span><span class="qtd">3 fatias finas (50g)</span></div>
+        <div class="sub-item"><span>Queijo prato</span><span class="qtd">2 fatias médias (40g)</span></div>
+        <div class="sub-item"><span>Queijo minas frescal</span><span class="qtd">35g (1 fatia méd fina)</span></div>
+        <div class="sub-item" style="border-bottom:none"><span>Queijo parmesão ralado</span><span class="qtd">12g (1 col sopa cheia)</span></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">🥛 leite e iogurte</div>
+        <div class="sub-item"><span>Leite desnatado UHT</span><span class="qtd">1 xíc (200ml)</span></div>
+        <div class="sub-item"><span>Leite sem lactose desnatado</span><span class="qtd">1 xíc (200ml)</span></div>
+        <div class="sub-item"><span>Bebida vegetal (soja/aveia/amêndoas), sem açúcar</span><span class="qtd">1 xíc (200ml)</span></div>
+        <div class="sub-item" style="border-bottom:none"><span>Iogurte natural desnatado</span><span class="qtd">170g</span></div>
+        <div class="sub-note">Dar preferência para alimentos light e desnatados, e queijos mais magros (geralmente os brancos).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTÓRICO -->
+  <div id="tab-historico" class="hidden">
+    <div id="history-content"></div>
+  </div>
+
+</div>
+
+<script>
+// ============ BANCO DE MACROS ============
+const MACROS = {
+  "Pão com ovo e requeijão light":            { kcal:425, p:22, c:52, g:13 },
+  "Crepioca de frango com requeijão":         { kcal:355, p:29, c:34, g:11 },
+  "Pizza de wrap e fruta":                    { kcal:326, p:17, c:36, g:13 },
+  "Pão de queijo de frigideira":              { kcal:381, p:17, c:39, g:14 },
+  "Mingau de aveia":                          { kcal:222, p:28, c:19, g:2 },
+  "Panqueca de cacau":                        { kcal:223, p:22, c:14, g:6 },
+  "Prato feito":                              { kcal:459, p:38, c:44, g:14 },
+  "Purê de brócolis com peito de frango":     { kcal:383, p:37, c:34, g:9 },
+  "Tomate recheado com frango e macarrão":    { kcal:416, p:46, c:26, g:12 },
+  "Strogonoff fit":                           { kcal:430, p:38, c:32, g:15 },
+  "Creme de milho com frango":                { kcal:348, p:39, c:22, g:9 },
+  "Macarrão bolonhesa":                       { kcal:456, p:31, c:39, g:19 },
+  "Cheesecake fit (original)":                { kcal:198, p:10, c:24, g:7 },
+  "Pão pizza":                                { kcal:198, p:14, c:17, g:11 },
+  "Shake proteico":                           { kcal:185, p:19, c:25, g:1 },
+  "Toast de banana":                          { kcal:175, p:15, c:28, g:2 },
+  "Sanduíche de atum cremoso":                { kcal:285, p:26, c:26, g:9 },
+  "Tortinha de morango":                      { kcal:304, p:27, c:36, g:5 },
+  "Subway saudável":                          { kcal:451, p:44, c:38, g:11 },
+  "Risoto saudável":                          { kcal:451, p:46, c:41, g:9 },
+  "Hambúrguer":                               { kcal:408, p:31, c:29, g:18 },
+  // Lanche coringa
+  "200g de gelatina zero preparada":          { kcal:10,  p:2,  c:0,  g:0 },
+  "180g de morango":                          { kcal:58,  p:1,  c:14, g:0 },
+  "200g de melancia":                         { kcal:60,  p:1,  c:15, g:0 },
+  "200g de melão":                            { kcal:64,  p:1,  c:16, g:0 },
+  "1 iogurte natural desnatado (170g)":       { kcal:85,  p:8,  c:11, g:0 },
+  "50g de qualquer vegetal de uso livre":     { kcal:12,  p:1,  c:2,  g:0 },
+  // Docinhos (até 100 kcal)
+  "Paçoquita (20g)":                        { kcal:97,  p:3,  c:8,  g:6 },
+  "Bombom Lacta Oreo (20g)":                { kcal:103, p:1,  c:12, g:6 },
+  "Bombom Ouro Branco (20g)":               { kcal:108, p:1,  c:11, g:7 },
+  "Chocolate Baton Garoto (16g)":           { kcal:85,  p:1,  c:9,  g:5 },
+  "Kinder Chocolate mini (12,5g)":          { kcal:68,  p:1,  c:7,  g:4 },
+  "Kinder Tronk (18g)":                     { kcal:95,  p:1,  c:10, g:5 },
+  "Picolé Chicabon zero (63g)":             { kcal:70,  p:1,  c:12, g:2 },
+  "Ferrero Rocher (12,5g)":                 { kcal:73,  p:1,  c:5,  g:5 },
+  "Leite condensado (1 col sopa, 20g)":     { kcal:65,  p:2,  c:11, g:2 },
+  "Bis 2 unidades (12,6g)":                 { kcal:66,  p:1,  c:8,  g:4 },
+  "Prestígio Mini (16g)":                   { kcal:80,  p:1,  c:9,  g:5 },
+  "Sonho de Valsa (20g)":                   { kcal:98,  p:1,  c:11, g:6 },
+  "KitKat Mini (11,6g)":                    { kcal:60,  p:1,  c:7,  g:3 },
+  "Tortuguita (15,5g)":                     { kcal:82,  p:1,  c:9,  g:5 },
+  "Brigadeiro pequeno (20g)":               { kcal:75,  p:1,  c:11, g:3 },
+  "Pé de Moleque pequeno (18g)":            { kcal:88,  p:2,  c:9,  g:5 },
+  "Cocada pequena (20g)":                   { kcal:80,  p:1,  c:12, g:3 },
+  "Doce de Leite (1 col sopa, 20g)":        { kcal:60,  p:1,  c:11, g:1 },
+  "Goiabada (1 fatia pequena, 20g)":        { kcal:60,  p:0,  c:15, g:0 },
+};
+const META_KCAL = 1475;
+const META_P = 115;
+
+const HABITOS = [
+  { id: "dieta", nome: "Dieta", icon: "🍽️" },
+  { id: "treino", nome: "Treino", icon: "💪" },
+  { id: "mentalidade", nome: "Mentalidade", icon: "🧘‍♀️" },
+];
+
+// Receitas de ingredientes p/ lista de mercado (por porção individual)
+const INGREDIENTES = {
+  "Pão com ovo e requeijão light": [
+    { item: "Pão francês", qtd: 100, un: "g" },
+    { item: "Ovo", qtd: 1, un: "un" },
+    { item: "Requeijão light", qtd: 30, un: "g" },
+    { item: "Melancia", qtd: 100, un: "g" },
+  ],
+  "Crepioca de frango com requeijão": [
+    { item: "Goma de tapioca", qtd: 30, un: "g" },
+    { item: "Ovo", qtd: 1, un: "un" },
+    { item: "Peito de frango", qtd: 60, un: "g" },
+    { item: "Requeijão light", qtd: 15, un: "g" },
+    { item: "Morango", qtd: 150, un: "g" },
+  ],
+  "Pizza de wrap e fruta": [
+    { item: "Wrap/tortilha", qtd: 40, un: "g" },
+    { item: "Extrato de tomate", qtd: 30, un: "g" },
+    { item: "Requeijão light", qtd: 20, un: "g" },
+    { item: "Queijo", qtd: 40, un: "g" },
+    { item: "Tomate", qtd: 30, un: "g" },
+    { item: "Morango", qtd: 120, un: "g" },
+  ],
+  "Pão de queijo de frigideira": [
+    { item: "Goma de tapioca", qtd: 30, un: "g" },
+    { item: "Ovo", qtd: 1, un: "un" },
+    { item: "Queijo", qtd: 20, un: "g" },
+    { item: "Requeijão light", qtd: 15, un: "g" },
+    { item: "Mamão", qtd: 170, un: "g" },
+  ],
+  "Mingau de aveia": [
+    { item: "Whey protein", qtd: 25, un: "g" },
+    { item: "Leite desnatado", qtd: 200, un: "ml" },
+    { item: "Aveia em flocos", qtd: 15, un: "g" },
+  ],
+  "Panqueca de cacau": [
+    { item: "Ovo", qtd: 1, un: "un" },
+    { item: "Farelo de aveia", qtd: 15, un: "g" },
+    { item: "Cacau em pó", qtd: 10, un: "g" },
+    { item: "Whey protein", qtd: 15, un: "g" },
+    { item: "Morango", qtd: 48, un: "g" },
+  ],
+  "Prato feito": [
+    { item: "Arroz", qtd: 100, un: "g cozido" },
+    { item: "Feijão", qtd: 80, un: "g" },
+    { item: "Peito de frango", qtd: 110, un: "g" },
+    { item: "Salada (folhas variadas)", qtd: 250, un: "g" },
+    { item: "Azeite", qtd: 5, un: "ml" },
+  ],
+  "Purê de brócolis com peito de frango": [
+    { item: "Peito de frango", qtd: 110, un: "g" },
+    { item: "Batata inglesa", qtd: 150, un: "g" },
+    { item: "Requeijão light", qtd: 15, un: "g" },
+    { item: "Brócolis", qtd: 50, un: "g" },
+  ],
+  "Tomate recheado com frango e macarrão": [
+    { item: "Tomate grande", qtd: 180, un: "g" },
+    { item: "Peito de frango", qtd: 130, un: "g" },
+    { item: "Macarrão", qtd: 70, un: "g cozido" },
+    { item: "Queijo", qtd: 20, un: "g" },
+  ],
+  "Strogonoff fit": [
+    { item: "Arroz", qtd: 85, un: "g cozido" },
+    { item: "Patinho (iscas)", qtd: 110, un: "g" },
+    { item: "Requeijão light", qtd: 30, un: "g" },
+    { item: "Ketchup", qtd: 12, un: "g" },
+  ],
+  "Creme de milho com frango": [
+    { item: "Milho verde enlatado", qtd: 84, un: "g" },
+    { item: "Requeijão light", qtd: 15, un: "g" },
+    { item: "Leite desnatado", qtd: 50, un: "ml" },
+    { item: "Peito de frango", qtd: 130, un: "g" },
+    { item: "Molho de tomate", qtd: 30, un: "g" },
+  ],
+  "Macarrão bolonhesa": [
+    { item: "Macarrão", qtd: 100, un: "g cozido" },
+    { item: "Carne moída", qtd: 110, un: "g" },
+    { item: "Molho de tomate", qtd: 45, un: "g" },
+  ],
+  "Cheesecake fit (original)": [
+    { item: "Iogurte natural desnatado", qtd: 100, un: "g" },
+    { item: "Cream cheese light", qtd: 45, un: "g" },
+    { item: "Morango", qtd: 48, un: "g" },
+    { item: "Biscoito maisena", qtd: 15, un: "g" },
+  ],
+  "Pão pizza": [
+    { item: "Pão de forma integral", qtd: 25, un: "g" },
+    { item: "Extrato de tomate", qtd: 20, un: "g" },
+    { item: "Queijo", qtd: 40, un: "g" },
+    { item: "Tomate", qtd: 30, un: "g" },
+  ],
+  "Shake proteico": [
+    { item: "Leite desnatado", qtd: 200, un: "ml" },
+    { item: "Whey protein", qtd: 15, un: "g" },
+    { item: "Morango", qtd: 180, un: "g" },
+  ],
+  "Toast de banana": [
+    { item: "Pão de forma integral", qtd: 25, un: "g" },
+    { item: "Whey protein", qtd: 15, un: "g" },
+    { item: "Banana", qtd: 65, un: "g" },
+  ],
+  "Sanduíche de atum cremoso": [
+    { item: "Pão integral", qtd: 50, un: "g" },
+    { item: "Atum sólido ao natural", qtd: 60, un: "g" },
+    { item: "Creme de ricota", qtd: 20, un: "g" },
+    { item: "Alface", qtd: 30, un: "g" },
+    { item: "Cenoura", qtd: 34, un: "g" },
+  ],
+  "Tortinha de morango": [
+    { item: "Iogurte natural desnatado", qtd: 170, un: "g" },
+    { item: "Morango", qtd: 100, un: "g" },
+    { item: "Biscoito maisena", qtd: 15, un: "g" },
+    { item: "Leite condensado", qtd: 20, un: "g" },
+    { item: "Whey protein", qtd: 15, un: "g" },
+  ],
+  "Subway saudável": [
+    { item: "Pão baguete", qtd: 70, un: "g" },
+    { item: "Peito de frango", qtd: 110, un: "g" },
+    { item: "Queijo", qtd: 20, un: "g" },
+    { item: "Salada (alface, tomate, pepino)", qtd: 250, un: "g" },
+  ],
+  "Risoto saudável": [
+    { item: "Arroz arbóreo", qtd: 45, un: "g" },
+    { item: "Peito de frango", qtd: 130, un: "g" },
+    { item: "Cenoura", qtd: 40, un: "g" },
+    { item: "Abobrinha", qtd: 40, un: "g" },
+    { item: "Queijo parmesão", qtd: 5, un: "g" },
+    { item: "Requeijão light", qtd: 15, un: "g" },
+  ],
+  "Hambúrguer": [
+    { item: "Pão de hambúrguer", qtd: 50, un: "g" },
+    { item: "Carne moída", qtd: 110, un: "g" },
+    { item: "Queijo", qtd: 20, un: "g" },
+    { item: "Salada (alface, tomate)", qtd: 100, un: "g" },
+  ],
+};
+
+const CATEGORIA_ITEM = {
+  "Pão francês": "🍞 pães e cereais", "Pão de forma integral": "🍞 pães e cereais", "Pão baguete": "🍞 pães e cereais",
+  "Pão de hambúrguer": "🍞 pães e cereais", "Wrap/tortilha": "🍞 pães e cereais", "Goma de tapioca": "🍞 pães e cereais",
+  "Macarrão": "🍞 pães e cereais", "Arroz": "🍞 pães e cereais", "Arroz arbóreo": "🍞 pães e cereais", "Biscoito maisena": "🍞 pães e cereais",
+  "Aveia em flocos": "🍞 pães e cereais", "Farelo de aveia": "🍞 pães e cereais", "Pão integral": "🍞 pães e cereais",
+  "Ovo": "🥚 ovos e laticínios", "Requeijão light": "🥚 ovos e laticínios", "Queijo": "🥚 ovos e laticínios",
+  "Queijo parmesão": "🥚 ovos e laticínios", "Cream cheese light": "🥚 ovos e laticínios", "Iogurte natural desnatado": "🥚 ovos e laticínios",
+  "Leite desnatado": "🥚 ovos e laticínios", "Creme de ricota": "🥚 ovos e laticínios", "Leite condensado": "🥚 ovos e laticínios",
+  "Peito de frango": "🥩 proteínas", "Patinho (iscas)": "🥩 proteínas", "Carne moída": "🥩 proteínas", "Whey protein": "🥩 proteínas",
+  "Atum sólido ao natural": "🥩 proteínas",
+  "Melancia": "🍓 frutas", "Morango": "🍓 frutas", "Mamão": "🍓 frutas", "Banana": "🍓 frutas",
+  "Tomate": "🥦 legumes e verduras", "Tomate grande": "🥦 legumes e verduras", "Brócolis": "🥦 legumes e verduras",
+  "Batata inglesa": "🥦 legumes e verduras", "Cenoura": "🥦 legumes e verduras", "Abobrinha": "🥦 legumes e verduras",
+  "Salada (folhas variadas)": "🥦 legumes e verduras", "Salada (alface, tomate, pepino)": "🥦 legumes e verduras",
+  "Salada (alface, tomate)": "🥦 legumes e verduras", "Milho verde enlatado": "🥦 legumes e verduras", "Alface": "🥦 legumes e verduras",
+  "Feijão": "🧂 mercearia", "Extrato de tomate": "🧂 mercearia", "Molho de tomate": "🧂 mercearia", "Ketchup": "🧂 mercearia",
+  "Azeite": "🧂 mercearia", "Cacau em pó": "🧂 mercearia",
+};
+
+// Regras de exibição para o mercado: converte gramas somadas em algo prático de comprar
+const REGRA_COMPRA = {
+  // pão vendido por peça
+  "Pão francês":            { tipo: "peca", peso: 50 },
+  "Pão de hambúrguer":      { tipo: "peca", peso: 50 },
+  "Pão baguete":            { tipo: "peca", peso: 70 },
+  "Wrap/tortilha":          { tipo: "peca", peso: 40 },
+  "Ovo":                    { tipo: "unidade" },
+  // itens vendidos em embalagem fechada — mostra em unidades de compra + gramas de referência
+  "Milho verde enlatado":   { tipo: "embalagem", nome: "lata(s)", peso: 200 },
+  "Iogurte natural desnatado": { tipo: "embalagem", nome: "un (170g)", peso: 170 },
+  "Leite desnatado":        { tipo: "volume", nome: "L", divisor: 1000 },
+  "Molho de tomate":        { tipo: "embalagem", nome: "sachê(s) 340g", peso: 340 },
+  "Extrato de tomate": { tipo: "embalagem", nome: "lata(s) 130g", peso: 130 },
+  "Cream cheese light":     { tipo: "embalagem", nome: "pote(s) 150g", peso: 150 },
+  "Ketchup":                { tipo: "embalagem", nome: "frasco(s)", peso: 380 },
+  "Whey protein":           { tipo: "embalagem", nome: "dosador(es) (15g)", peso: 15 },
+  "Biscoito maisena":       { tipo: "embalagem", nome: "pacote(s) 200g", peso: 200 },
+  "Leite condensado":       { tipo: "embalagem", nome: "lata(s) 395g", peso: 395 },
+  "Atum sólido ao natural": { tipo: "embalagem", nome: "lata(s) 120g", peso: 120 },
+  "Creme de ricota":        { tipo: "embalagem", nome: "pote(s) 150g", peso: 150 },
+  "Cacau em pó":            { tipo: "embalagem", nome: "pote(s) 200g", peso: 200 },
+  "Pão integral":           { tipo: "peca", peso: 25 },
+};
+
+function formatarQtdCompra(itemNome, qtdTotal, unidade) {
+  const regra = REGRA_COMPRA[itemNome];
+  if (!regra) {
+    // padrão: grama/ml direto, arredondado
+    const val = Math.round(qtdTotal);
+    return `${val}${unidade}`;
+  }
+  if (regra.tipo === "peca") {
+    const unidades = Math.ceil(qtdTotal / regra.peso);
+    return `${unidades} un (${Math.round(qtdTotal)}g)`;
+  }
+  if (regra.tipo === "unidade") {
+    return `${Math.round(qtdTotal)} un`;
+  }
+  if (regra.tipo === "embalagem") {
+    const unidades = Math.ceil(qtdTotal / regra.peso);
+    return `${unidades} ${regra.nome}`;
+  }
+  if (regra.tipo === "volume") {
+    const litros = qtdTotal / regra.divisor;
+    return `${litros.toFixed(1)}${regra.nome}`;
+  }
+  return `${Math.round(qtdTotal)}${unidade}`;
+}
+
+function getMacro(nome) {
+  if (!nome || nome === "" || nome === "refeição livre" || nome === "não comi no plano") return null;
+  return MACROS[nome] || null;
+}
+
+// ============ STORAGE ============
+function localDateKey(d) {
+  const dt = d || new Date();
+  const y = dt.getFullYear();
+  const m = String(dt.getMonth()+1).padStart(2,'0');
+  const day = String(dt.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+const todayKey = () => localDateKey(new Date());
+const emptyDay = () => ({ meals: {}, habitos: {}, agua: 0 });
+const loadHistory = () => { try { return JSON.parse(localStorage.getItem("planner_history") || "{}"); } catch { return {}; } };
+const saveHistory = (h) => { try { localStorage.setItem("planner_history", JSON.stringify(h)); } catch {} };
+const loadPlanner = () => { try { return JSON.parse(localStorage.getItem("planner_semana") || "{}"); } catch { return {}; } };
+const savePlanner = (p) => { try { localStorage.setItem("planner_semana", JSON.stringify(p)); } catch {} };
+const loadMercado = () => { try { return JSON.parse(localStorage.getItem("planner_mercado_checks") || "{}"); } catch { return {}; } };
+const saveMercado = (m) => { try { localStorage.setItem("planner_mercado_checks", JSON.stringify(m)); } catch {} };
+
+let activeDayOffset = 0;
+function activeDayDate() {
+  const d = new Date();
+  d.setDate(d.getDate() + activeDayOffset);
+  return d;
+}
+function activeDayKey() { return localDateKey(activeDayDate()); }
+
+function updateDateBar() {
+  const d = activeDayDate();
+  const isToday = activeDayOffset === 0;
+  const isYesterday = activeDayOffset === -1;
+  const label = isToday
+    ? `hoje · ${d.toLocaleDateString("pt-BR", { weekday:"short", day:"numeric", month:"short" })}`
+    : isYesterday
+    ? `ontem · ${d.toLocaleDateString("pt-BR", { weekday:"short", day:"numeric", month:"short" })}`
+    : d.toLocaleDateString("pt-BR", { weekday:"long", day:"numeric", month:"long" });
+  const el = document.getElementById("date-display");
+  el.textContent = label + (isToday ? "" : " · toque para voltar a hoje");
+  el.className = "date-display " + (isToday ? "editando-hoje" : "editando-outro");
+}
+function mudarDiaAtivo(dir) {
+  const novo = activeDayOffset + dir;
+  if (novo > 0) return;
+  activeDayOffset = novo;
+  updateDateBar();
+  restoreDay();
+  updateMacroBar();
+  updateWaterBar();
+  renderHabitos();
+}
+function irParaHoje() {
+  if (activeDayOffset === 0) return;
+  activeDayOffset = 0;
+  updateDateBar();
+  restoreDay();
+  updateMacroBar();
+  updateWaterBar();
+  renderHabitos();
+}
+
+document.getElementById("today-date").textContent =
+  new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+updateDateBar();
+
+// ============ MEALS ============
+function setMeal(key, value) {
+  const h = loadHistory();
+  const dk = activeDayKey();
+  const d = h[dk] || emptyDay();
+  d.meals[key] = value;
+  h[dk] = d;
+  saveHistory(h);
+  updateMacroBar();
+}
+
+function restoreDay() {
+  ["cafe","almoco","lanche","jantar","coringa","docinho"].forEach(k => {
+    const el = document.getElementById(`meal-${k}`);
+    if (el) el.value = "";
+  });
+  const d = (loadHistory())[activeDayKey()];
+  if (!d) return;
+  ["cafe","almoco","lanche","jantar","coringa","docinho"].forEach(k => {
+    if (d.meals && d.meals[k]) {
+      const el = document.getElementById(`meal-${k}`);
+      if (el) el.value = d.meals[k];
+    }
+  });
+}
+restoreDay();
+
+// ============ WATER ============
+function addAgua(litros) {
+  const h = loadHistory();
+  const dk = activeDayKey();
+  const d = h[dk] || emptyDay();
+  d.agua = Math.round(((d.agua || 0) + litros) * 10) / 10;
+  h[dk] = d;
+  saveHistory(h);
+  updateWaterBar();
+}
+function resetAgua() {
+  const h = loadHistory();
+  const dk = activeDayKey();
+  const d = h[dk] || emptyDay();
+  d.agua = 0;
+  h[dk] = d;
+  saveHistory(h);
+  updateWaterBar();
+}
+function updateWaterBar() {
+  const d = (loadHistory())[activeDayKey()] || emptyDay();
+  const agua = d.agua || 0;
+  document.getElementById("water-total").textContent = agua.toFixed(1);
+  const pct = Math.min(Math.round(agua / 3.0 * 100), 100);
+  const bar = document.getElementById("water-bar");
+  bar.style.width = pct + "%";
+  bar.className = "water-progress-fill" + (agua >= 3.0 ? " ok" : "");
+}
+updateWaterBar();
+
+// ============ MACRO CALCULATOR ============
+function calcularMacrosDia() {
+  const keys = ["cafe","almoco","lanche","jantar","coringa","docinho"];
+  const h = loadHistory();
+  const d = h[activeDayKey()] || {};
+  const meals = d.meals || {};
+  let total = { kcal:0, p:0, c:0, g:0 };
+  keys.forEach(k => {
+    const m = getMacro(meals[k]);
+    if (m) { total.kcal += m.kcal; total.p += m.p; total.c += m.c; total.g += m.g; }
+  });
+  return total;
+}
+
+function updateMacroBar() {
+  const t = calcularMacrosDia();
+  document.getElementById("mc-kcal").textContent = t.kcal;
+  document.getElementById("mc-p").textContent = t.p;
+  document.getElementById("mc-c").textContent = t.c;
+  document.getElementById("mc-g").textContent = t.g;
+
+  const pct = Math.min(Math.round(t.kcal / META_KCAL * 100), 100);
+  const bar = document.getElementById("mc-bar");
+  bar.style.width = pct + "%";
+  bar.className = "macro-progress-fill" + (t.kcal > META_KCAL + 80 ? " over" : t.kcal >= META_KCAL - 60 ? " ok" : "");
+
+  const restam = META_KCAL - t.kcal;
+  document.getElementById("mc-restam").textContent = restam > 0 ? `${restam} restam` : restam === 0 ? "meta batida ✓" : `${Math.abs(restam)} acima da meta`;
+
+  let msg = "";
+  if (t.kcal === 0) msg = "Escolha suas refeições para ver os macros.";
+  else if (t.p < 70) msg = "Proteína baixa — considere ajustar o próximo registro.";
+  else if (t.p >= META_P && t.kcal <= META_KCAL + 80) msg = "Proteína e calorias no ponto para hoje! ✨";
+  else if (t.kcal > META_KCAL + 80) msg = "Acima da meta calórica — sem drama, só observação.";
+  else msg = `Faltam ${Math.max(META_P - t.p, 0)}g de proteína para a meta do dia.`;
+  document.getElementById("mc-msg").textContent = msg;
+}
+updateMacroBar();
+
+// ============ HÁBITOS ============
+function renderHabitos() {
+  const h = loadHistory();
+  const dk = activeDayKey();
+  const d = h[dk] || emptyDay();
+  const habitosDia = d.habitos || {};
+  const el = document.getElementById("habitos-list");
+  el.innerHTML = HABITOS.map(hab => {
+    const done = !!habitosDia[hab.id];
+    return `
+      <div class="habito-card">
+        <div class="habito-top">
+          <span class="habito-nome"><span class="habito-icon">${hab.icon}</span>${hab.nome}</span>
+        </div>
+        <button class="habito-toggle ${done ? 'done' : ''}" onclick="toggleHabito('${hab.id}')">
+          ${done ? '✓ feito hoje' : 'marcar como feito'}
+        </button>
+      </div>`;
+  }).join("");
+}
+function toggleHabito(id) {
+  const h = loadHistory();
+  const dk = activeDayKey();
+  const d = h[dk] || emptyDay();
+  if (!d.habitos) d.habitos = {};
+  d.habitos[id] = !d.habitos[id];
+  h[dk] = d;
+  saveHistory(h);
+  renderHabitos();
+}
+renderHabitos();
+
+// ============ PLANNER SEMANAL ============
+const DIAS_SEMANA = ["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"];
+const OPCOES_CAFE = ["Pão com ovo e requeijão light","Crepioca de frango com requeijão","Pizza de wrap e fruta","Pão de queijo de frigideira","Mingau de aveia","Panqueca de cacau"];
+const OPCOES_ALMOCO = ["Prato feito","Purê de brócolis com peito de frango","Tomate recheado com frango e macarrão","Strogonoff fit","Creme de milho com frango","Macarrão bolonhesa","Subway saudável","Risoto saudável","Hambúrguer"];
+const OPCOES_LANCHE = ["Cheesecake fit (original)","Pão pizza","Shake proteico","Toast de banana","Sanduíche de atum cremoso","Tortinha de morango"];
+const OPCOES_JANTAR = ["Prato feito","Purê de brócolis com peito de frango","Tomate recheado com frango e macarrão","Strogonoff fit","Creme de milho com frango","Macarrão bolonhesa","Subway saudável","Risoto saudável","Hambúrguer"];
+
+function renderPlanner() {
+  const planner = loadPlanner();
+  const el = document.getElementById("planner-days");
+  el.innerHTML = DIAS_SEMANA.map((dia, i) => {
+    const p = planner[i] || {};
+    const opt = (lista, sel) => lista.map(o => `<option ${o===sel?"selected":""}>${o}</option>`).join("");
+    return `
+      <div class="planner-day">
+        <div class="planner-day-title">${dia}</div>
+        <div class="planner-select"><label>☀️ café</label>
+          <select onchange="setPlannerMeal(${i},'cafe',this.value)"><option value="">—</option>${opt(OPCOES_CAFE, p.cafe)}</select>
+        </div>
+        <div class="planner-select"><label>🍽️ almoço</label>
+          <select onchange="setPlannerMeal(${i},'almoco',this.value)"><option value="">—</option>${opt(OPCOES_ALMOCO, p.almoco)}</select>
+        </div>
+        <div class="planner-select"><label>🥪 lanche</label>
+          <select onchange="setPlannerMeal(${i},'lanche',this.value)"><option value="">—</option>${opt(OPCOES_LANCHE, p.lanche)}</select>
+        </div>
+        <div class="planner-select"><label>🌙 jantar</label>
+          <select onchange="setPlannerMeal(${i},'jantar',this.value)"><option value="">—</option>${opt(OPCOES_JANTAR, p.jantar)}</select>
+        </div>
+      </div>`;
+  }).join("");
+}
+function setPlannerMeal(diaIdx, refeicao, valor) {
+  const planner = loadPlanner();
+  if (!planner[diaIdx]) planner[diaIdx] = {};
+  planner[diaIdx][refeicao] = valor;
+  savePlanner(planner);
+  renderMercado();
+}
+function limparPlanner() {
+  if (!confirm("Limpar todo o planejamento da semana?")) return;
+  savePlanner({});
+  renderPlanner();
+  renderMercado();
+}
+function aplicarPlannerHoje() {
+  const planner = loadPlanner();
+  const diaSemanaJs = new Date().getDay(); // 0=domingo
+  const idx = diaSemanaJs === 0 ? 6 : diaSemanaJs - 1; // ajusta pra segunda=0
+  const p = planner[idx];
+  if (!p) { alert("Nenhum plano definido para hoje ainda."); return; }
+  ["cafe","almoco","lanche","jantar"].forEach(k => {
+    if (p[k]) {
+      const el = document.getElementById(`meal-${k}`);
+      if (el) { el.value = p[k]; setMeal(k, p[k]); }
+    }
+  });
+  switchTab('hoje', document.querySelector('.tab'));
+}
+renderPlanner();
+
+// ============ LISTA DE MERCADO ============
+function renderMercado() {
+  const planner = loadPlanner();
+  const totais = {}; // { itemName: { qtd, un } }
+
+  Object.values(planner).forEach(dia => {
+    if (!dia) return;
+    Object.values(dia).forEach(receitaNome => {
+      if (!receitaNome || !INGREDIENTES[receitaNome]) return;
+      INGREDIENTES[receitaNome].forEach(ing => {
+        const key = ing.item + "|" + ing.un;
+        if (!totais[key]) totais[key] = { item: ing.item, qtd: 0, un: ing.un };
+        totais[key].qtd += ing.qtd;
+      });
+    });
+  });
+
+  const itens = Object.values(totais);
+  const vazio = document.getElementById("mercado-vazio");
+  const listEl = document.getElementById("mercado-list");
+
+  if (itens.length === 0) {
+    vazio.style.display = "block";
+    listEl.innerHTML = "";
+    return;
+  }
+  vazio.style.display = "none";
+
+  // Agrupa por categoria
+  const porCategoria = {};
+  itens.forEach(it => {
+    const cat = CATEGORIA_ITEM[it.item] || "🗂️ outros";
+    if (!porCategoria[cat]) porCategoria[cat] = [];
+    porCategoria[cat].push(it);
+  });
+
+  const checks = loadMercado();
+  const ordemCategorias = ["🥩 proteínas","🥚 ovos e laticínios","🍞 pães e cereais","🥦 legumes e verduras","🍓 frutas","🧂 mercearia","🗂️ outros"];
+
+  listEl.innerHTML = ordemCategorias.filter(c => porCategoria[c]).map(cat => {
+    const itensCat = porCategoria[cat].sort((a,b) => a.item.localeCompare(b.item));
+    return `
+      <div class="shop-cat">
+        <div class="shop-cat-title">${cat}</div>
+        ${itensCat.map(it => {
+          const key = it.item;
+          const isChecked = !!checks[key];
+          const qtdFmt = formatarQtdCompra(it.item, it.qtd, it.un.includes('g cozido') ? 'g cozido' : it.un);
+          return `<div class="shop-item ${isChecked?'checked':''}">
+            <input type="checkbox" ${isChecked?'checked':''} onchange="toggleMercadoItem('${key.replace(/'/g,"\\'")}')">
+            <span>${it.item}</span>
+            <span class="shop-qtd">${qtdFmt}</span>
+          </div>`;
+        }).join("")}
+      </div>`;
+  }).join("");
+}
+function toggleMercadoItem(key) {
+  const checks = loadMercado();
+  checks[key] = !checks[key];
+  saveMercado(checks);
+  renderMercado();
+}
+renderMercado();
+
+// ============ TABS ============
+function switchTab(id, btn) {
+  ["hoje","semana","mercado","habitos","cardapio","trocas","historico"].forEach(t => document.getElementById(`tab-${t}`).classList.add("hidden"));
+  document.getElementById(`tab-${id}`).classList.remove("hidden");
+  document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  if (id === "historico") renderHistory();
+  if (id === "habitos") renderHabitos();
+  if (id === "semana") renderPlanner();
+  if (id === "mercado") renderMercado();
+}
+
+function switchSubtab(id, btn) {
+  ["frutas","carbo","proteina","laticinios"].forEach(t => document.getElementById(`sub-${t}`).classList.add("hidden"));
+  document.getElementById(`sub-${id}`).classList.remove("hidden");
+  document.querySelectorAll(".subtab").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function renderHistory() {
+  const h = loadHistory();
+  const keys = Object.keys(h).sort().reverse();
+  const el = document.getElementById("history-content");
+  if (keys.length === 0) {
+    el.innerHTML = '<div class="empty">Nenhum dia registrado ainda.<br>Começa hoje! 🌱</div>';
+    return;
+  }
+  el.innerHTML = keys.map(date => {
+    const d = h[date];
+    const fmt = new Date(date + "T12:00:00").toLocaleDateString("pt-BR", { weekday:"short", day:"numeric", month:"short" });
+    const meals = Object.values(d.meals || {}).filter(Boolean);
+    const onPlan = meals.filter(v => v !== "não comi no plano" && v !== "refeição livre").length;
+    const score = meals.length > 0 ? `${onPlan}/${meals.length} no plano` : "sem registro";
+    const habitosFeitos = Object.values(d.habitos || {}).filter(Boolean).length;
+    const habTag = `<span class="tag blue">✓ ${habitosFeitos}/${HABITOS.length} hábitos</span>`;
+    let kcalDia = 0;
+    meals.forEach(nome => { const m = getMacro(nome); if (m) kcalDia += m.kcal; });
+    const kcalTag = kcalDia > 0 ? `<span class="tag ${kcalDia <= META_KCAL + 80 ? 'green' : 'red'}">${kcalDia} kcal</span>` : "";
+    const aguaTag = d.agua ? `<span class="tag ${d.agua >= 3 ? 'green' : 'gold'}">💧 ${d.agua.toFixed(1)}L</span>` : "";
+    return `<div class="history-card">
+      <div class="history-top"><span class="history-date">${fmt}</span><span class="history-score">${score}</span></div>
+      <div class="history-tags">${kcalTag}${habTag}${aguaTag}</div>
+    </div>`;
+  }).join("");
+}
+
+// Stars
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+for (let i = 0; i < 55; i++) {
+  ctx.beginPath();
+  ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, Math.random()*1.4+0.5, 0, Math.PI*2);
+  ctx.fillStyle = `rgba(212,184,255,${Math.random()*0.55+0.1})`;
+  ctx.fill();
+}
+</script>
+</body>
+</html>
